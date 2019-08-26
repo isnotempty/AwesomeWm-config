@@ -1,19 +1,13 @@
-# Awesome Wm
+## Introduction
 
+my personal setup for Awesome Wm, still needs improvement for it to be as advanced as possible.
 
-## Description
+## requirement
+**WM**: [Awesome Wm](https://awesomewm.org/).
 
-My awesome Wm config .
+**Browser**: Google Chrome , FireFox
 
-**OS**: Arch Linux
-
-**WM**: Awesome Wm
-
-**Shell**: zsh with ohmyzsh
-
-**Terminal**: urxvt
-
-**Editor**: vim
+**Terminal**: [urxvt] (https://wiki.archlinux.fr/urxvt)
 
 **File manager**: thunar
 
@@ -22,4 +16,8 @@ My awesome Wm config .
 **Font**:  Industry-Light
 
 ## Screenshots
+- wibar
+![wibar](screenshots/wibar.png)
+
+- Exit Screen
 ![exit_screen](screenshots/exit_screen.png)
