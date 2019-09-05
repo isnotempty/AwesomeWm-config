@@ -2,7 +2,6 @@ local awful         =   require("awful")
 local beautiful     =   require("beautiful")
 local keys          =   require("core.keys")
 local env           =   require("environment")
-env:init()
 
 
 awful.rules.rules = {
@@ -71,23 +70,6 @@ awful.rules.rules = {
     { 
       rule_any = { class = {"qBittorrent","hakuneko-desktop","YACReaderLibrary","Inkscape","Gimp"} },
       properties = { tag = env.taglist[5] } 
-    },
-    {
-      rule_any = { type = { 'dialog' }, role = { 'pop-up' } },
-      properties = {
-        callback = function (c)
-          local wa = screen[c.screen].workarea
-          -- If a popup or dialog has the exact same size then the workarea its in
-          -- don't make it floating, otherwise make it floating
-          if c.width == wa.width and c.height == wa.height and c.x == wa.x and c.y == wa.y then
-            c.floating = false
-          else
-            c.floating = true
-            awful.placement.centered(c)
-          end
-        end
-      }
     }
-
 }
   

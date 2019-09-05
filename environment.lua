@@ -16,7 +16,7 @@ local env = {}
 function env:init(args)
     --init vars
     args = args or {}
-
+    
     -- env vars
     self.term       = "urxvt"
     self.mod        = args.mod or "Mod4"
@@ -27,7 +27,7 @@ function env:init(args)
     self.themedir   = self.home .. "/.config/awesome/"
     self.taglist    = {" TERM ", " WEB ", " CODE ", " FILES ", " OTHERS "}
     -- theme setup
-	beautiful.init(env.themedir .. "theme.lua")
+	  beautiful.init(env.themedir .. "theme.lua")
 end
 
 
@@ -62,4 +62,4 @@ end
 
 -- End
 -----------------------------------------------------------------------------------------------------------------------
-return env
+return setmetatable(env, { __call = function(_, ...) return new(...) end })

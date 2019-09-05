@@ -58,11 +58,11 @@ my personal setup for [Awesome Wm](https://awesomewm.org/) , still needs improve
 
 - [x]  exit screen
 
-- [  ] customize notification
+- [ ] customize notification
 
-- [  ] titlebar
+- [ ] titlebar
 
-- [  ] customize tasklist  
+- [ ] customize tasklist  
 
 ## License
 My awesome wm config is open-source , licensed under the [MIT license](https://opensource.org/licenses/MIT).

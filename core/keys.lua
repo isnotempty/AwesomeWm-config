@@ -1,26 +1,29 @@
 -----------------------------------------------------------------------------------------------------------------------
---                                                  Error handling                                               --
+--                                                  keys                                              --
 -----------------------------------------------------------------------------------------------------------------------
 
+-- Load modules
+--------------------------------------------------------------------------------------
 local awful         = require("awful")
 local gears         = require("gears")
 local menubar       = require("menubar")
 local hotkeys_popup = require("awful.hotkeys_popup")
 local env           = require("environment")
 local exit_screen   = require("widgets.exit_screen")
-                  
-
-                    
-env:init()
-
-
-
+env:init()                                     
 
 --variable
 local keys = {}
 
 -- global keys
+--------------------------------------------------------------------------------------
 keys.globalkeys = gears.table.join(
+    -- change layout
+    awful.key({ env.mod,           }, "space", function () awful.layout.inc( 1) end,
+              {description = "select next", group = "layout"}),
+    awful.key({ env.mod, "Shift"   }, "space", function () awful.layout.inc(-1) end,
+              {description = "select previous", group = "layout"}),
+    -- tag
     awful.key({ env.mod,           }, "s",      hotkeys_popup.show_help,
               {description="show help", group="awesome"}),
     awful.key({ env.mod,           }, "Left",   awful.tag.viewprev,
@@ -29,8 +32,7 @@ keys.globalkeys = gears.table.join(
               {description = "view next", group = "tag"}),
     awful.key({ env.mod,           }, "Tab", awful.tag.history.restore,
         {description = "go back", group = "tag"}),
-    
-    -- to the last tag
+
     awful.key({ env.mod,           }, "u",
         function ()
             uc = awful.client.urgent.get()
@@ -49,8 +51,15 @@ keys.globalkeys = gears.table.join(
               {description = "quit awesome", group = "awesome"}),
     awful.key({ }, "XF86PowerOff", function() exit_screen:show() end,
               {description = "quit awesome", group = "awesome"}),
-
-
+    
+    -- change focus client
+    awful.key({ env.mod,           }, "j",
+              function () awful.client.focus.byidx( 1) end,
+        {description = "focus next by index", group = "client"}),
+    awful.key({ env.mod,           }, "k",
+              function () awful.client.focus.byidx(-1) end,
+        {description = "focus previous by index", group = "client"}),
+        
     -- lock screen
     awful.key({ env.mod }, "l", function () awful.util.spawn("light-locker-command -l", false) end),
 
@@ -75,6 +84,7 @@ keys.globalkeys = gears.table.join(
         awful.util.spawn("playerctl previous", false)
     end),
   
+
     -- Brightness
     awful.key({ env.mod }, "Up", function ()
         awful.util.spawn("xbacklight -inc 5") end),
@@ -85,35 +95,31 @@ keys.globalkeys = gears.table.join(
     awful.key({ }, "XF86MonBrightnessUp", function ()
         awful.util.spawn("xbacklight -inc 15") end),
 
+    -- restore minimized windows
+    awful.key({ env.mod, "Control" }, "n",
+        function ()
+            local c = awful.client.restore()
+            -- Focus restored client
+            if c then
+              c:emit_signal(
+                  "request::activate", "key.unminimize", {raise = true}
+              )
+            end
+        end,{description = "restore minimized", group = "client"}),
+
     -- screenshots
     awful.key({ }, "Print", function ()
-        awful.util.spawn(env.home .. "/bin/screenshot.sh ") end),
+        awful.util.spawn(env.themedir  .. "/scripts/screenshot.sh ") end),
     awful.key({ env.mod }, "Print", function ()
-        awful.util.spawn(env.home .. "/bin/screenshot.sh -s") end),
+        awful.util.spawn(env.themedir  .. "/scripts/screenshot.sh -s") end),
         
     -- Menubar
     awful.key({ env.mod }, "p", function() menubar.show() end,
-              {description = "show the menubar", group = "launcher"}),
-
-    -- Show/Hide Wibox
-    awful.key({ env.mod }, "b", function ()
-        for s in screen do
-          s.wibar_bottom.visible = not s.wibar_bottom.visible
-          s.wibar_top.visible = not s.wibar_top.visible
-        end
-      end,
-    {description = "show/hide wibar", group = "awesome"})
+              {description = "show the menubar", group = "launcher"})
 )
 
 keys.clientkeys = gears.table.join(
-    
-    -- toggle floating mode
-    ------------------------------------------------------------------------
-    awful.key({ env.mod, "Control" }, "space",  awful.client.floating.toggle                     ,
-              {description = "toggle floating", group = "client"}),
-
     -- toggle fullscreen
-    ------------------------------------------------------------------------
     awful.key({ env.mod,           }, "f",
         function (c)
             c.fullscreen = not c.fullscreen
@@ -121,14 +127,12 @@ keys.clientkeys = gears.table.join(
         end,{description = "toggle fullscreen", group = "client"}),
 
     -- minimize
-    ------------------------------------------------------------------------
     awful.key({ env.mod,           }, "n",
         function (c)
             c.minimized = true
         end ,{description = "minimize", group = "client"}),
     
     -- (un)maximize vertically
-    ------------------------------------------------------------------------
     awful.key({ env.mod , "Control"}, "m",
         function (c)
             c.maximized_vertical = not c.maximized_vertical
@@ -136,15 +140,17 @@ keys.clientkeys = gears.table.join(
         end ,{description = "(un)maximize vertically", group = "client"}),
     
     -- (un)maximize vertically
-    ------------------------------------------------------------------------
     awful.key({ env.mod }, "m",
         function (c)
             c.maximized = not c.maximized
             c:raise()
         end , {description = "(un)maximize horizontally", group = "client"}),
+
+    -- toggle keep on top
+    awful.key({ env.mod,           }, "t",      function (c) c.ontop = not c.ontop  end,
+        {description = "toggle keep on top", group = "client"}),
     
     -- kill client    
-    ------------------------------------------------------------------------
     awful.key({ env.mod  }, "c", 
         function (c) 
             c:kill() 
@@ -164,32 +170,21 @@ for i = 1, 9 do
                         if tag then
                            tag:view_only()
                         end
-                  end,{description = "view tag #"..i, group = "tag"}),
+            end,{description = "view tag #"..i, group = "tag"}),
 
-        -- Toggle tag display.
-        -------------------------------------------------------------
-        awful.key({ env.mod, "Control" }, "#" .. i + 9,
-                  function ()
-                      local screen = awful.screen.focused()
-                      local tag = screen.tags[i]
-                      if tag then
-                         awful.tag.viewtoggle(tag)
-                      end
-                  end,{description = "toggle tag #" .. i, group = "tag"}),
 
         -- Move client to tag.
         -------------------------------------------------------------
         awful.key({ env.mod, "Shift" }, "#" .. i + 9,
-                  function ()
-                      if client.focus then
-                          local tag = client.focus.screen.tags[i]
-                          if tag then
-                              client.focus:move_to_tag(tag)
-                          end
-                     end
-                  end,{description = "move focused client to tag #"..i, group = "tag"})
+            function ()
+                if client.focus then
+                    local tag = client.focus.screen.tags[i]
+                    if tag then
+                        client.focus:move_to_tag(tag)
+                    end
+                end
+            end,{description = "move focused client to tag #"..i, group = "tag"})
 
-        
     )
 end
 
