@@ -8,10 +8,11 @@ local wibox       = require("wibox")
 
 local systray = {}
 
-systray.sys_widget   = wibox.widget{
+systray.sys_widget   = wibox.container.constraint {
     image = beautiful.show_apps,
-    resize = true,
+    height = 50,
     width = 50,
+    forced_width = 50,
     widget = wibox.widget.imagebox
 }
 

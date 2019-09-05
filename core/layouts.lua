@@ -1,7 +1,6 @@
 -----------------------------------------------------------------------------------------------------------------------
 --                                                Layouts config                                                     --
 -----------------------------------------------------------------------------------------------------------------------
-
 local awful         =   require("awful")
 
 
@@ -9,7 +8,7 @@ local layouts       =   {}
 
 -- Build  table
 -----------------------------------------------------------------------------------------------------------------------
-function layouts:init()
+local function new()
     local layset = {
         awful.layout.suit.tile,
         awful.layout.suit.floating,
@@ -29,4 +28,4 @@ function layouts:init()
 end
 
 
-return layouts
+return setmetatable(layouts, { __call = function(_, ...) return new(...) end })

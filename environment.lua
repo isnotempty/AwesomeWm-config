@@ -2,13 +2,11 @@
 --                                                  Environment config                                               --
 -----------------------------------------------------------------------------------------------------------------------
 
-
 local awful         = require("awful")
 local beautiful     = require("beautiful")
 local gears         = require("gears")
 local wibox         = require("wibox")
-                      require("util.shape")
-
+local util          = require("utilities")
 
 -- Initialize tables and variables for module
 -----------------------------------------------------------------------------------------------------------------------
@@ -25,9 +23,9 @@ function env:init(args)
     self.alt        = "Mod1"
     self.home       = os.getenv("HOME")
     self.editor_cmd = os.getenv("EDITOR") or "vim"
-    self.editor_gui = os.getenv("EDITOR") or "visual studio code"
+    self.editor_gui = "code"
     self.themedir   = self.home .. "/.config/awesome/"
-    self.taglist    = {" WEB ", " TERM ", " CODE ", " FILES ", " OTHERS "}
+    self.taglist    = {" TERM ", " WEB ", " CODE ", " FILES ", " OTHERS "}
     -- theme setup
 	beautiful.init(env.themedir .. "theme.lua")
 end
@@ -44,7 +42,7 @@ end
 
 
 env.wrapper = function (s)
-  local widget_bg = wibox.container.background(s,beautiful.color.black_gray, custom_shape)
+  local widget_bg = wibox.container.background(s,beautiful.color.green, custom_shape)
   return wibox.container.margin(widget_bg, 8, 5, 8, 8)
 end
 
@@ -54,13 +52,12 @@ env.wrapper_tag = function (s)
 end
 
 env.margin = function (widget)
-  return wibox.container.margin(widget, 8, 0, 8, 8)
+  return wibox.container.margin(widget, 8, 10, 8, 8)
 end
 
 env.widget_name = function (name)
-  local txt       = wibox.widget.textbox(name)
-  local widget_bg = wibox.container.background(txt,beautiful.color.black_gray, custom_shape)
-  return wibox.container.margin(widget_bg, 1, 5, 8, 8)
+  local txt       = util.text(name)
+  return wibox.container.margin(txt, 1, 2, 8, 8)
 end
 
 -- End

@@ -4,37 +4,24 @@
 local awful         =   require("awful")
 local beautiful     =   require("beautiful")
 local gears         =   require("gears")
-local naughty 		= 	require("naughty")
-local xresources    =   require("beautiful.xresources")
 local wibox         =   require("wibox")
+local core          =   require("core")
+local util          =   require("utilities")
                         require("awful.autofocus")
-                        require("util.shape")
-                        require("autostart")
-
-
-
---------        ERROR HANLDING    
-------------------------------------------------------------------------------------
-                        require("checking_error")
-
+                        
 
 --------        Environment       
 ------------------------------------------------------------------------------------
 local env           =   require("environment")
 env:init()
 
---------        Rules      
-------------------------------------------------------------------------------------
-require("core.rules")
-
 --------        Layouts          
 ------------------------------------------------------------------------------------
-local layout = require("core.layouts")
-layout:init()
+local layout = core.layouts
 
 --------        keys          
 ------------------------------------------------------------------------------------
-local keys   = require("core.keys")
+local keys   = core.keys
 
 -- Taglist widget
 --------------------------------------------------------------------------------
@@ -84,7 +71,7 @@ local textclock = wibox.widget.textclock(" %d/%m/%Y - %H:%M GMT", 60)
 local sysmon = {}
 sysmon.battery      = require("widgets.battery")
 sysmon.backlight    = require("widgets.backlight")
-
+sysmon.volume       = require("widgets.volume")
 
 -- Screen setup
 -----------------------------------------------------------------------------------------------------------------------
@@ -138,12 +125,15 @@ awful.screen.connect_for_each_screen(function(s)
             layout = wibox.layout.flex.horizontal,
         },
         {
-            wibox.widget.systray(),
             layout = wibox.layout.flex.horizontal,
-            env.widget_name("  BACKLIGHT"),
-            sysmon.backlight,
-            env.widget_name("  BATTERY"),
-            sysmon.battery
+            wibox.widget.systray(),
+            env.widget_name("VOLUME"),
+            env.margin(sysmon.volume),
+            env.widget_name("BACKLIGHT"),
+            env.margin(sysmon.backlight),
+            env.widget_name("BATTERY"),
+            env.margin(sysmon.battery),
+            
         }
     }
 
@@ -161,22 +151,9 @@ awful.screen.connect_for_each_screen(function(s)
         },
         {
             layout = wibox.layout.align.horizontal,
-            env.wrapper(textclock)
+            textclock,
+            
         }
     }
 
-end)
-
-
-client.connect_signal("manage", function (c)
-    if awesome.startup
-      and not c.size_hints.user_position
-      and not c.size_hints.program_position then
-        awful.placement.no_offscreen(c)
-    end
-end)
-
--- Enable sloppy focus, so that focus follows mouse.
-client.connect_signal("mouse::enter", function(c)
-    c:emit_signal("request::activate", "mouse_enter", {raise = false})
 end)

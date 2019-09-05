@@ -49,13 +49,13 @@ awful.rules.rules = {
     },
     --firefox
     { 
-      rule = { class = "firefox" },
-      properties = { tag = env.taglist[1] } 
+      rule_any = { class = {"firefox","Google-chrome"} },
+      properties = { tag = env.taglist[2] } 
     },
     --URxvt
     { 
       rule = { class = "URxvt" },
-      properties = { tag = env.taglist[2] } 
+      properties = { tag = env.taglist[1] } 
     },
     --visual studio code
     { 
@@ -69,7 +69,7 @@ awful.rules.rules = {
     },
     --qBittorrent
     { 
-      rule_any = { class = {"qBittorrent","hakuneko-desktop","YACReaderLibrary"} },
+      rule_any = { class = {"qBittorrent","hakuneko-desktop","YACReaderLibrary","Inkscape","Gimp"} },
       properties = { tag = env.taglist[5] } 
     },
     {
