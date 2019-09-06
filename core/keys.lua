@@ -24,7 +24,7 @@ keys.globalkeys = gears.table.join(
     awful.key({ env.mod, "Shift"   }, "space", function () awful.layout.inc(-1) end,
               {description = "select previous", group = "layout"}),
     -- tag
-    awful.key({ env.mod,           }, "s",      hotkeys_popup.show_help,
+    awful.key({ env.mod,           }, "F1",      hotkeys_popup.show_help,
               {description="show help", group="awesome"}),
     awful.key({ env.mod,           }, "Left",   awful.tag.viewprev,
               {description = "view previous", group = "tag"}),
@@ -119,6 +119,10 @@ keys.globalkeys = gears.table.join(
 )
 
 keys.clientkeys = gears.table.join(
+    -- sticky client
+    awful.key({ env.mod,           }, "s",      function (c) c.sticky = not c.sticky  end,
+            {description = "sticky client " , group = "client"}),
+
     -- toggle fullscreen
     awful.key({ env.mod,           }, "f",
         function (c)

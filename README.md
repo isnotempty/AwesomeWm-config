@@ -1,6 +1,6 @@
 
 ## Introduction  
-my personal setup for [Awesome Wm](https://awesomewm.org/) , still needs improvement for it to be as advanced as possible.
+my personal setup for [Awesome Wm](https://awesomewm.org/) , still needs improvement for it to be as advanced as possible and inspired by [worron config](https://github.com/worron/awesome-config).
 
 ## Requirements
 
@@ -12,17 +12,17 @@ my personal setup for [Awesome Wm](https://awesomewm.org/) , still needs improve
 
   
 
-**File manager**: thunar
+**File manager**: thunar , ranger
 
   
 
 **Compositor**: compton
 
   
-
-**Font**: Industry Black , Samsung Sans
+**Font**: Industry Black , Samsung Sans , Time Won
 
   
+**Others**: notify-send , maim , nm-applet  , light-locker
 
 ## Installation
 
@@ -34,25 +34,7 @@ my personal setup for [Awesome Wm](https://awesomewm.org/) , still needs improve
 
 ## Screenshots
 
-- wibar
-
-![wibar](resources/screenshots/wibar.png)
-
-  
-
-- full screen
-
-<img src="resources/screenshots/fullscreen.png" alt="full_screen"/>
-
-  
-
-- exit screen
-
-<img src="resources/screenshots/exit_screen.png" alt="exit_screen"/>
-
-  
-  
-  
+![full_screen](resources/screenshots/full.png)  
 
 ## wishlist
 
